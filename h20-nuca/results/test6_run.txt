@@ -1,0 +1,26 @@
+NODE=natural-selection GPU=0
+BUILD_OK
+Allocating 1024 MiB...
+Array size: 0.0005 MB, stride: 1, #cache lines: 4, elapsed clock cycles: 6980, total time: 0.0000 s, #loads: 200, cycles per load: 34.9000, time per load: 17.6263 ns, load bandwidth: 6.7632 GB/s, SM frequence: 1.9800 GHz
+Array size: 0.0010 MB, stride: 1, #cache lines: 8, elapsed clock cycles: 13379, total time: 0.0000 s, #loads: 400, cycles per load: 33.4475, time per load: 16.8927 ns, load bandwidth: 7.0569 GB/s, SM frequence: 1.9800 GHz
+Array size: 0.0020 MB, stride: 1, #cache lines: 16, elapsed clock cycles: 26172, total time: 0.0000 s, #loads: 800, cycles per load: 32.7150, time per load: 16.5227 ns, load bandwidth: 7.2149 GB/s, SM frequence: 1.9800 GHz
+Array size: 0.0039 MB, stride: 1, #cache lines: 32, elapsed clock cycles: 51686, total time: 0.0000 s, #loads: 1600, cycles per load: 32.3038, time per load: 16.3150 ns, load bandwidth: 7.3067 GB/s, SM frequence: 1.9800 GHz
+Array size: 0.0078 MB, stride: 1, #cache lines: 64, elapsed clock cycles: 103081, total time: 0.0001 s, #loads: 3200, cycles per load: 32.2128, time per load: 16.2691 ns, load bandwidth: 7.3273 GB/s, SM frequence: 1.9800 GHz
+Array size: 0.0156 MB, stride: 1, #cache lines: 128, elapsed clock cycles: 205312, total time: 0.0001 s, #loads: 6400, cycles per load: 32.0800, time per load: 16.2020 ns, load bandwidth: 7.3577 GB/s, SM frequence: 1.9800 GHz
+Array size: 0.0312 MB, stride: 1, #cache lines: 256, elapsed clock cycles: 410062, total time: 0.0002 s, #loads: 12800, cycles per load: 32.0361, time per load: 16.1798 ns, load bandwidth: 7.3678 GB/s, SM frequence: 1.9800 GHz
+Array size: 0.0625 MB, stride: 1, #cache lines: 512, elapsed clock cycles: 819852, total time: 0.0004 s, #loads: 25600, cycles per load: 32.0255, time per load: 16.1745 ns, load bandwidth: 7.3702 GB/s, SM frequence: 1.9800 GHz
+Array size: 0.1250 MB, stride: 1, #cache lines: 1024, elapsed clock cycles: 1639119, total time: 0.0008 s, #loads: 51200, cycles per load: 32.0140, time per load: 16.1687 ns, load bandwidth: 7.3728 GB/s, SM frequence: 1.9800 GHz
+Array size: 0.2500 MB, stride: 1, #cache lines: 2048, elapsed clock cycles: 15761439, total time: 0.0080 s, #loads: 102400, cycles per load: 153.9203, time per load: 77.7375 ns, load bandwidth: 1.5335 GB/s, SM frequence: 1.9800 GHz
+Array size: 0.5000 MB, stride: 1, #cache lines: 4096, elapsed clock cycles: 56372748, total time: 0.0285 s, #loads: 204800, cycles per load: 275.2576, time per load: 139.0190 ns, load bandwidth: 0.8575 GB/s, SM frequence: 1.9800 GHz
+Array size: 1.0000 MB, stride: 1, #cache lines: 8192, elapsed clock cycles: 112670156, total time: 0.0569 s, #loads: 409600, cycles per load: 275.0736, time per load: 138.9261 ns, load bandwidth: 0.8581 GB/s, SM frequence: 1.9800 GHz
+Array size: 2.0000 MB, stride: 1, #cache lines: 16384, elapsed clock cycles: 225530686, total time: 0.1139 s, #loads: 819200, cycles per load: 275.3060, time per load: 139.0434 ns, load bandwidth: 0.8574 GB/s, SM frequence: 1.9800 GHz
+Array size: 4.0000 MB, stride: 1, #cache lines: 32768, elapsed clock cycles: 450988539, total time: 0.2278 s, #loads: 1638400, cycles per load: 275.2616, time per load: 139.0210 ns, load bandwidth: 0.8575 GB/s, SM frequence: 1.9800 GHz
+Array size: 8.0000 MB, stride: 1, #cache lines: 65536, elapsed clock cycles: 902158275, total time: 0.4556 s, #loads: 3276800, cycles per load: 275.3169, time per load: 139.0489 ns, load bandwidth: 0.8573 GB/s, SM frequence: 1.9800 GHz
+Array size: 16.0000 MB, stride: 1, #cache lines: 131072, elapsed clock cycles: 1804345013, total time: 0.9113 s, #loads: 6553600, cycles per load: 275.3212, time per load: 139.0511 ns, load bandwidth: 0.8573 GB/s, SM frequence: 1.9800 GHz
+Array size: 32.0000 MB, stride: 1, #cache lines: 262144, elapsed clock cycles: 5516126617, total time: 2.7859 s, #loads: 13107200, cycles per load: 420.8471, time per load: 212.5490 ns, load bandwidth: 0.5609 GB/s, SM frequence: 1.9800 GHz
+Array size: 64.0000 MB, stride: 1, #cache lines: 524288, elapsed clock cycles: 16994020039, total time: 8.5828 s, #loads: 26214400, cycles per load: 648.2704, time per load: 327.4093 ns, load bandwidth: 0.3641 GB/s, SM frequence: 1.9800 GHz
+Array size: 128.0000 MB, stride: 1, #cache lines: 1048576, elapsed clock cycles: 35896442326, total time: 18.1295 s, #loads: 52428800, cycles per load: 684.6703, time per load: 345.7931 ns, load bandwidth: 0.3447 GB/s, SM frequence: 1.9800 GHz
+Array size: 256.0000 MB, stride: 1, #cache lines: 2097152, elapsed clock cycles: 71822967570, total time: 36.2742 s, #loads: 104857600, cycles per load: 684.9572, time per load: 345.9380 ns, load bandwidth: 0.3446 GB/s, SM frequence: 1.9800 GHz
+Array size: 512.0000 MB, stride: 1, #cache lines: 4194304, elapsed clock cycles: 143679223691, total time: 72.5653 s, #loads: 209715200, cycles per load: 685.1159, time per load: 346.0181 ns, load bandwidth: 0.3445 GB/s, SM frequence: 1.9800 GHz
+Array size: 1024.0000 MB, stride: 1, #cache lines: 8388608, elapsed clock cycles: 285290422521, total time: 144.0861 s, #loads: 419430400, cycles per load: 680.1854, time per load: 343.5280 ns, load bandwidth: 0.3470 GB/s, SM frequence: 1.9800 GHz
+DONE
