@@ -324,18 +324,36 @@ $$
 
 ## 实验十三：DSMEM 延迟矩阵（负面结果）
 
-`src/topo_dsmem.cu`：cluster=8（保证同 GPC），用 `mapa.shared::cluster` + 远程原子
-（`atom.shared::cluster.add.u32`）测 8×8 两两延迟，每对 64 次依赖链。
+`src/topo_dsmem.cu`：cluster=8（保证同 GPC），用 `mapa.shared::cluster` 取远端 SMEM 地址，
+然后**指针追逐**：下一跳地址 = 上一跳的返回值（严格 RAW），`REPS=256`，`step` 由 host 传入防常量折叠。
+每对 (src,dst) 之间用 `barrier.cluster` 串行化，保证同一时刻只有一条单向探针在飞。
 
 ```
        r0   r1   r2   r3   r4   r5   r6   r7
-r0     -1    18    17    17    17    17    18    18
-r1     20    -1    17    17    17    17    18    18
-...
+r0     -1  204  203  201  199  202  203  199
+r1    205   -1  199  197  195  198  200  196
+r2    202  198   -1  194  192  195  197  193
+r3    202  198  196   -1  192  195  197  193
+r4    199  195  194  192   -1  193  194  190
+r5    202  198  197  195  193   -1  197  193
+r6    203  199  198  196  194  197   -1  194
+r7    200  196  194  192  190  193  195   -1
+
+rank -> smid:  r0=0  r1=1  r2=14  r3=15  r4=28  r5=29  r6=42  r7=43
 ```
 
-**全部 16–20 周期，没有任何台阶。** 结论：GPC 内部的 SM-to-SM 网络是扁平全交叉，
-**无法用 DSMEM 延迟分辨 TPC / CPC 归属**。CPC 层的带宽影响也不可观测（K=6 的 652 已高于满 GPC 的 588）。
+| 项 | 值 |
+|---|---|
+| 全体 | 190–205 周期，均值 196.8，跨度 **7.9%** |
+| 对称性 | 最大 \|M[i,j]−M[j,i]\| = **2 周期** |
+| 连续 ID 对（0-1/14-15/28-29/42-43） | 204/194/193/194，均值 **196.2** |
+| 其余所有对 | 均值 **196.5** |
+
+**结论：GPC 内部近似全交叉，没有 TPC / CPC 台阶。** 配对与跨配对均值差 0.3 周期（0.15%）。
+只存在一个平滑的位置梯度（SM 0 最慢 202、SM 28 最快 194，差 ~8 周期），像布线长度而非拓扑分组。
+
+方法学备注：早期用远程原子（`atom.shared::cluster.add`）测出的是 17 周期，比远程 load 还快一个数量级，
+物理上不成立——那是被流水/折叠了。换成指针追逐 + host 传入的 `step` 后才拿到 ~197 周期的真实值。
 
 ## 目录
 
@@ -353,6 +371,34 @@ h20-nuca/
 ```bash
 # 编译（TMA 需要 sm_90a）
 nvcc -O3 -std=c++17 -gencode arch=compute_90a,code=sm_90a src/nuca_atomic.cu -o nuca_atomic -lcudart
+```
+
+### 一条命令跑单个实验（登录节点没有 CUDA，编译必须在作业里）
+
+```bash
+cd ~/gpgpu-microbenchmark          # 仓库根目录也可以
+sbatch h20-nuca/scripts/run_dsmem_oneshot.sbatch
+cat h20-nuca/dsmem-<jobid>.out
+```
+
+`run_dsmem_oneshot.sbatch` 会自动定位 `h20-nuca/`，所以从根目录或 `h20-nuca/` 提交都能跑。
+
+### 复现 K=6 的 652 B/cycle
+
+`src/pack_spread2.cu` 里只需两个常量：
+
+```cpp
+static const int ITERS = 4000, UNROLL = 16, SMEM = 120 * 1024;   // ← 就是这一行
+```
+
+外加 `K = 6, packed = 1, mode = 0`。`UNROLL=16` 是因为 8 时单 SM 只有 90 B/cycle；
+`SMEM=120 KB` 是为了把 occupancy 压到 1，避免两个 block 挤同一 SM 导致计数虚高。
+
+| 配置 | 聚合 | 每 SM |
+|---|---:|---:|
+| unroll 8, smem 100 KB, K=6 | ~470–490 | ~80 |
+| **unroll 16, smem 120 KB, K=6** | **652** | **108.75** |
+| unroll 16, smem 120 KB, K=8 | 588 | 73.5 |
 
 # 需要独占 1 张卡；78 个 block 会自动各占一个 SM
 sbatch scripts/run_atomic.sbatch
